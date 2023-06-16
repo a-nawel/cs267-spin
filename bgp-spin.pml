@@ -1,4 +1,4 @@
-#define N 4 /*the number of nodes*/
+#define N 3 /*the number of nodes*/
 
 typedef ROUTE {
   byte path[N] ;
@@ -30,10 +30,10 @@ inline popPath( /*ROUTE*/ r )
 #define isPathFull(/*ROUTE*/ r) (r.hops==N)
 
 
-/*Check i f there is a cycle from id to id*/
+/*Check if there is a cycle from id to id*/
 inline checkCycle( /*ROUTE*/ r, /*byte*/ id, /* bit */ ret)
 {
-  printf("-- Entering checkCycle\n");
+  printf("-- Entering checkCycle from %d to %d\n", id, id);
   byte k;
   k = r.hops;
   ret = 0;
@@ -51,7 +51,7 @@ inline checkCycle( /*ROUTE*/ r, /*byte*/ id, /* bit */ ret)
      :: else -> break;
      od;
   fi;
-  printf("-- Exiting checkCycle\n");
+  printf("-- Exiting checkCycle from %d to %d with ret = %d\n", id, id, ret);
 }
 
 
@@ -75,7 +75,7 @@ inline assign ( /*ROUTE*/ r1 , /*ROUTE*/ r2)
 /*Node id sends cbr to neighbors*/
 inline routeSend( /*byte*/ id, /*ROUTE*/ cbr)
 {
-  printf("-- Entering routeSend\n"); 
+  printf("-- Entering routeSend from node %d\n", id); 
   byte j = 0;
   ROUTE temp;
   do
@@ -99,7 +99,7 @@ inline routeSend( /*byte*/ id, /*ROUTE*/ cbr)
   :: j<N&& j==id -> j++;
   :: j>=N-> break;
   od;
-  printf("-- Entering routeSend\n");
+  printf("-- Exiting routeSend from node %d\n", id);
 }
 
 
@@ -192,7 +192,8 @@ endASn:
 }
 
 // LTL property
-ltl p { <>[] (len(g_edge[1].ch[2])==0) }
+//ltl p { <>[] (len(g_edge[1].ch[2])==0) }
+ltl p { <>[] (len(g_edge[0].ch[0])==0) }
 
 init
 {
