@@ -159,9 +159,9 @@ endASn:
      if
      :: g_edge[i].ed[id]==1 ->
         if
-        :: atomic{
-           g_edge[i].ch[id] ? [routeRec] ->
-           g_edge[i].ch[id] ? routeRec ;
+        :: true -> atomic{
+           g_edge[i].ch[id] ? [routeRec] -> g_edge[i].ch[id] ? routeRec;
+           //full (g_edge[i].ch[id]) -> g_edge[i].ch[id] ? routeRec;
            bit hasCycle;
            checkCycle(routeRec, id, hasCycle) ;
            if
@@ -192,8 +192,9 @@ endASn:
 }
 
 // LTL property
-//ltl p { <>[] (len(g_edge[1].ch[2])==0) }
-ltl p { <>[] (len(g_edge[0].ch[0])==0) }
+ltl p { <>[] (len(g_edge[1].ch[2])==0) } //OK!
+//ltl p { <>[] (len(g_edge[0].ch[2])==0) } //KO!!
+//ltl p { <>[] (len(g_edge[0].ch[1])==0) } 
 
 init
 {
